@@ -1,6 +1,33 @@
 {
-  "name": "si-scroll-gallery-react",
+  "name": "@silicic/scroll-gallery-react",
   "version": "0.0.1",
+  "title": "Scroll Gallery React",
+  "description": "Scrollable gallery component for React",
+  "homepage": "https://github.com/silicic-acid/scroll-gallery-react",
+  "author": {
+    "email": "wendzhue@gmail.com",
+    "name": "Wendell Hu"
+  },
+  "keywords": [
+    "scroll",
+    "gallery",
+    "component",
+    "react",
+    "react-component",
+    "Wendell Hu",
+    "wendzhue"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/silicic-acid/scroll-gallery-react"
+  },
+  "bugs": {
+    "url": "https://github.com/silicic-acid/scroll-gallery-react/issues"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "main": "dist/index.js",
   "module": "dist/index.js",
   "files": [
@@ -28,7 +55,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "rm -rf dist && NODE_ENV=production babel src/lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__",
+    "build": "npm run build:component && npm run build:style",
+    "build:component": "rm -rf dist && NODE_ENV=production babel src/lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__",
+    "build:style": "node-sass src/lib/styles.scss -o dist/",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
