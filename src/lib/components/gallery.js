@@ -33,12 +33,16 @@ class ScrollGallery extends React.Component {
 
   componentDidMount() {
     this.prepareGallery();
+    this.moveTrack(this.getActivatedItemOffset(0));
+
+    window.addEventListener('resize', () => {
+      this.onResize();
+    });
 
     Promise.resolve().then(() => {
       this.setState({
         animated: true
       });
-      this.moveTrack(this.getActivatedItemOffset(0));
     });
   }
 
@@ -48,6 +52,11 @@ class ScrollGallery extends React.Component {
 
   bindWindowResizingEvent = () => {};
 
+  onResize = () => {
+    this.prepareGallery();
+    this.moveTrack(this.getActivatedItemOffset(this.state.activatedItemIndex));
+  };
+
   onPointerDown = e => {
     if (!this.isTriggering) {
       const point = isTouchEvent(e) ? e.touches[0] || e.changedTouches[0] : e;
@@ -55,7 +64,10 @@ class ScrollGallery extends React.Component {
       this.isTriggering = true;
       this.pointerPosition = { x: point.clientX, y: point.clientY };
       document.addEventListener('mousemove', this.onPointerMove);
-      document.addEventListener('touchmove', this.onPointerMove);
+      document.addEventListener('touchmove', this.onPointerMove, {
+        passive: false,
+        capture: true
+      });
       document.addEventListener('mouseup', this.onPointerUp);
       document.addEventListener('touchend', this.onPointerUp);
     }
@@ -84,6 +96,10 @@ class ScrollGallery extends React.Component {
     }
 
     if (dragging) {
+      if (e.cancelable) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
       this.activeTranslate = this.passiveTranslate + delta.x;
       this.moveTrack(
         this.bounceFunction(this.activeTranslate) + this.draggingDiff
@@ -114,7 +130,10 @@ class ScrollGallery extends React.Component {
     }
 
     document.removeEventListener('mousemove', this.onPointerMove);
-    document.removeEventListener('touchmove', this.onPointerMove);
+    document.removeEventListener('touchmove', this.onPointerMove, {
+      passive: false,
+      capture: true
+    });
     document.removeEventListener('mouseup', this.onPointerUp);
     document.removeEventListener('touchend', this.onPointerUp);
 
@@ -131,6 +150,10 @@ class ScrollGallery extends React.Component {
     const itemTranslates = [];
 
     this.startOffsets = [];
+
+    if (!elements[0]) {
+      return;
+    }
 
     elements.forEach((el, index) => {
       const itemWidth = el.clientWidth;
@@ -221,7 +244,10 @@ class ScrollGallery extends React.Component {
     const leftItemWidth = elements[firstFurtherIndex - 1].clientWidth;
     const rightItemWidth = elements[firstFurtherIndex - 1].clientWidth;
 
-    if (direction === 'left' && parsedTranslate > leftOffset + leftItemWidth) {
+    if (
+      direction === 'left' &&
+      parsedTranslate > leftOffset + leftItemWidth - this.props.gap
+    ) {
       return firstFurtherIndex;
     } else if (
       direction === 'right' &&

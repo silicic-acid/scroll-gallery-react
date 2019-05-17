@@ -11,7 +11,9 @@ const GalleryItem = React.forwardRef((props, ref) => {
   const { transform } = props;
 
   const style = {
-    transform: `translate3d(${transform}px, 0, 0)`
+    transform: `translate3d(${transform}px, 0, 0) scale(${
+      props.activated ? 1.05 : 1
+    })`
   };
 
   return (

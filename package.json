@@ -1,8 +1,8 @@
 {
   "name": "@silicic/scroll-gallery-react",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "title": "Scroll Gallery React",
-  "description": "Scrollable gallery component for React",
+  "description": "Scroll-able gallery component for React",
   "homepage": "https://github.com/silicic-acid/scroll-gallery-react",
   "author": {
     "email": "wendzhue@gmail.com",
@@ -36,17 +36,21 @@
   ],
   "dependencies": {
     "classnames": "^2.2.6",
-    "node-sass": "^4.12.0",
     "prop-types": "^15.7.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.4",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/preset-es2015": "^7.0.0-beta.53",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-stage-0": "^7.0.0",
     "@storybook/addon-actions": "^5.0.11",
     "@storybook/addon-links": "^5.0.11",
     "@storybook/addons": "^5.0.11",
     "@storybook/react": "^5.0.11",
     "babel-loader": "^8.0.6",
+    "node-sass": "^4.12.0",
     "react-scripts": "3.0.1"
   },
   "peerDependencies": {
